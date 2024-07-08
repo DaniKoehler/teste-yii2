@@ -61,3 +61,31 @@ Exemplo de requisição:
 ```
 
 **Obs.:** O token deve ser passado no header `Authorization` Auth Type `Bearer Token` na requisição# teste-yii2
+
+# Possíveis problemas
+Caso ao tentar acessar o site aparecer uma mensagem de erro "Forbidden - You don't have permission to access this resource.", execute os seguintes comandos:
+* `docker exec -it docker_conf-php71-1` bash para acessar o container
+* `cd /etc/apache2/sites-available` para acessar o diretorio de configuração do apache
+* `a2dissite 000-default.conf` para desabilitar qualquer configuração existente
+* `nano 000-default.conf` para editar o arquivo de configuração
+* Apague todas as linhas e cole o seguinte código (obs: caso a configuração já seja essa, apenas pule para o próximo passo):
+```
+<VirtualHost *:80>
+ServerName develop.yii2.com.br
+ServerAlias develop.yii2.com.br
+
+    DocumentRoot /var/www/html/web
+    <Directory /var/www/html/web>
+        AllowOverride All
+        Order Allow,Deny
+        Allow from All
+
+        FallbackResource /index.php
+    </Directory>
+
+    ErrorLog /var/log/apache2/local.host.log
+    CustomLog /var/log/apache2/local.host.log combined
+</VirtualHost>
+```
+* `a2ensite 000-default.conf` para habilitar a configuração
+* `service apache2 restart` para reiniciar o apache
