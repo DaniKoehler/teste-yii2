@@ -1,0 +1,75 @@
+version: "3"
+services:
+  php71:
+    build: "."
+    image: "php:7.1-apache"
+    ports:
+      - "80:80"
+      #- '443:443'
+    volumes:
+      - "./../:/var/www/html"
+      - "././apache2.conf:/etc/apache2/apache2.conf"
+      - "././sites-available:/etc/apache2/sites-available"
+      - "././sites-enabled:/etc/apache2/sites-enabled"
+      - "././vhost.conf:/etc/apache2/sites-available/000-default.conf"
+      - "././ports.conf:/etc/apache2/ports.conf"
+      - "././security.conf:/etc/apache2/conf-available/security.conf"
+      - "././php.ini:/usr/local/etc/php/php.ini"
+      - "././evasive.conf:/etc/apache2/mods-enabled/evasive.conf"
+      - "././mpm_worker.conf:/etc/apache2/mods-available/mpm_worker.conf"
+      - "././mpm_prefork.conf:/etc/apache2/mods-available/mpm_prefork.conf"
+      - "/etc/hosts:/etc/hosts"
+      # - "/etc/letsencrypt:/etc/letsencrypt"
+      # - '/etc/letsencrypt/options-ssl-apache.conf:/etc/letsencrypt/options-ssl-apache.conf'
+      # - '/etc/letsencrypt/live/<dominio>:/etc/letsencrypt/live/httpd'
+      # - '/etc/letsencrypt/archive/<dominio>:/etc/letsencrypt/archive/<dominio>'
+    restart: "always"
+    networks:
+      default:
+        ipv4_address: 172.18.0.80
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: yii2_test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1234
+      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      default:
+        ipv4_address: 172.18.0.81
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      default:
+        ipv4_address: 172.18.0.82
+
+  redis:
+    image: redis
+    command: redis-server --requirepass 1234 --appendonly yes
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks:
+      default:
+        ipv4_address: 172.18.0.8
+
+# docker network create --subnet=172.18.0.0/16 php-apache
+
+networks:
+  default:
+    external:
+      name: php-apache
+
+volumes:
+  mysql-data:

@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+    ServerName develop.yii2.com.br
+    ServerAlias develop.yii2.com.br
+
+    DocumentRoot /var/www/html/web
+    <Directory /var/www/html/web>
+        AllowOverride All
+        Order Allow,Deny
+        Allow from All
+
+        FallbackResource /index.php
+    </Directory>
+
+    ErrorLog /var/log/apache2/local.host.log
+    CustomLog /var/log/apache2/local.host.log combined
+</VirtualHost>
