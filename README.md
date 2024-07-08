@@ -43,7 +43,7 @@ Exemplo de requisição:
    "city": "Client City",
    "state": "Client State",
    "complement": "Client Complement",
-   "photo": "http://www.example.com/photo
+   "photo": "http://www.example.com/photo.jpg",
    "sex": "M"
 }
 ```
