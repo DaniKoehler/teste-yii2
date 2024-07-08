@@ -60,7 +60,7 @@ Exemplo de requisição:
 }
 ```
 
-**Obs.:** O token deve ser passado no header `Authorization` Auth Type `Bearer Token` na requisição# teste-yii2
+**Obs.:** O token deve ser passado no header `Authorization` Auth Type `Bearer Token` na requisição
 
 # Possíveis problemas
 Caso ao tentar acessar o site aparecer uma mensagem de erro "Forbidden - You don't have permission to access this resource.", execute os seguintes comandos:
