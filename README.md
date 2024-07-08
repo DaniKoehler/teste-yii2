@@ -5,11 +5,12 @@
 1. Clone o repositório
 2. Na raiz do projeto, crie o arquivo `.env` com base no arquivo `.env.example`
 3. Na raiz do projeto, vá para o diretorio do docker: `cd docker_conf`
-4. Execute o comando: `docker-compose up -d --build`
-5. Com o docker rodando, acesse o container do php: `docker exec -it docker_conf-php71-1 bash`
-6. Dentro do container, execute o comando: `composer install`
-7. Acesse o Adminer para criar o banco de dados: `http://localhost:8080` (servidor: `db` usuário: `root`, senha: `1234`, banco: `yii2_test`)
-8. Execute o comando: `php yii migrate` para criar as tabelas no banco de dados
+4. Crie a rede do docker `docker network create --subnet=172.18.0.0/16 php-apache`
+5. Execute o comando: `docker-compose up -d --build`
+6. Com o docker rodando, acesse o container do php: `docker exec -it docker_conf-php71-1 bash`
+7. Dentro do container, execute o comando: `composer install`
+8. Acesse o Adminer para criar o banco de dados: `http://localhost:8080` (servidor: `db` usuário: `root`, senha: `1234`, banco: `yii2_test`)
+9. Execute o comando: `php yii migrate` para criar as tabelas no banco de dados
 
 ### Criar usuário
 ```php yii user/create <login> <name> <password>```
